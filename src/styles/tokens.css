@@ -1,0 +1,135 @@
+/* Overhead design tokens. One system, three themes, switched live via
+   <html data-theme="phosphor|amber|daylight">. Components only read these
+   variables; canvas code reads them through getComputedStyle (see theme.ts). */
+
+:root,
+[data-theme='phosphor'] {
+  color-scheme: dark;
+  --bg: #040806;
+  --panel: #08100c;
+  --panel-2: #0c1711;
+  --raised: #12231a;
+  --line: #173326;
+  --line-strong: #2a5a41;
+  --ink: #c9f7d8;
+  --ink-2: #86bd9b;
+  --ink-3: #5f9577;
+  --accent: #3dff8a;
+  --accent-dim: #1f9d55;
+  --accent-ink: #03130a;
+  --select: #f1ffc2;
+  --warn: #ffc53d;
+  --danger: #ff5a6e;
+  --mil: #dcc54c;
+  --heavy: #55d8ff;
+  --heli: #4de8c2;
+  --radar-bg: #030a06;
+  --radar-core: #07150d;
+  --ring: rgba(61, 255, 138, 0.2);
+  --ring-strong: rgba(61, 255, 138, 0.42);
+  --sweep: 61, 255, 138;
+  --plane: #3dff8a;
+  --plane-ghost: rgba(61, 255, 138, 0.28);
+  --glow: 0 0 14px rgba(61, 255, 138, 0.32);
+  --scrim: rgba(2, 6, 4, 0.72);
+  --map-land: #06100a;
+  --map-land-2: #0a1a11;
+  --map-water: #02090a;
+  --map-road: #1c3a2a;
+  --map-road-major: #2c5a42;
+  --map-label: #6fa584;
+  --map-runway: #5fdc92;
+}
+
+[data-theme='amber'] {
+  color-scheme: dark;
+  --bg: #0a0603;
+  --panel: #120b05;
+  --panel-2: #1a1007;
+  --raised: #25170a;
+  --line: #3a2410;
+  --line-strong: #6b4519;
+  --ink: #ffe0b0;
+  --ink-2: #d3a366;
+  --ink-3: #a97f48;
+  --accent: #ffb21e;
+  --accent-dim: #b97a00;
+  --accent-ink: #1a0f00;
+  --select: #fff2cf;
+  --warn: #ffd34d;
+  --danger: #ff6a5c;
+  --mil: #d9c46a;
+  --heavy: #6fd0ff;
+  --heli: #7fe3c2;
+  --radar-bg: #080402;
+  --radar-core: #150c04;
+  --ring: rgba(255, 178, 30, 0.2);
+  --ring-strong: rgba(255, 178, 30, 0.42);
+  --sweep: 255, 178, 30;
+  --plane: #ffb21e;
+  --plane-ghost: rgba(255, 178, 30, 0.28);
+  --glow: 0 0 14px rgba(255, 178, 30, 0.3);
+  --scrim: rgba(8, 4, 2, 0.74);
+  --map-land: #0d0803;
+  --map-land-2: #160e05;
+  --map-water: #050301;
+  --map-road: #3a2610;
+  --map-road-major: #6b4519;
+  --map-label: #b48a55;
+  --map-runway: #ffc761;
+}
+
+[data-theme='daylight'] {
+  color-scheme: light;
+  --bg: #e9e5d9;
+  --panel: #f5f2e8;
+  --panel-2: #eeeadd;
+  --raised: #fbf9f2;
+  --line: #cdc6b3;
+  --line-strong: #a39b84;
+  --ink: #15201a;
+  --ink-2: #44554b;
+  --ink-3: #5b6a60;
+  --accent: #0b7a44;
+  --accent-dim: #3f9b6b;
+  --accent-ink: #f5f2e8;
+  --select: #0a3d91;
+  --warn: #8a5a00;
+  --danger: #b8132a;
+  --mil: #6b5a00;
+  --heavy: #0a62a8;
+  --heli: #0a7a68;
+  --radar-bg: #efebdf;
+  --radar-core: #f7f4ea;
+  --ring: rgba(11, 122, 68, 0.22);
+  --ring-strong: rgba(11, 122, 68, 0.45);
+  --sweep: 11, 122, 68;
+  --plane: #15201a;
+  --plane-ghost: rgba(21, 32, 26, 0.3);
+  --glow: 0 0 0 transparent;
+  --scrim: rgba(233, 229, 217, 0.82);
+  --map-land: #ebe7da;
+  --map-land-2: #e0dccd;
+  --map-water: #cfd9d6;
+  --map-road: #c9c2ae;
+  --map-road-major: #a39b84;
+  --map-label: #5b6a60;
+  --map-runway: #15201a;
+}
+
+:root {
+  --font-data: 'B612 Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-display: 'Chakra Petch', 'B612 Mono', ui-sans-serif, sans-serif;
+  --text-2xs: 0.625rem;
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.8125rem;
+  --text-lg: 0.9375rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.75rem;
+  --text-display: clamp(1.9rem, 4vw, 2.75rem);
+  --radius: 2px;
+  --radius-lg: 3px;
+  --ease: cubic-bezier(0.22, 0.8, 0.2, 1);
+  --dur: 220ms;
+}
