@@ -3,6 +3,8 @@ name: Release
 on:
   push:
     tags: ["v*"]
+    # Pushing to this branch runs a build-only check (no release is published).
+    branches: ["release-check"]
   workflow_dispatch:
 
 permissions:
