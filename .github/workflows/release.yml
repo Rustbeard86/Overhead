@@ -3,6 +3,9 @@ name: Release
 on:
   push:
     tags: ["v*"]
+    # Every push to main refreshes the rolling "latest" release.
+    branches: ["main"]
+    paths-ignore: ["**/*.md", "docs/**"]
     # Pushing to this branch runs a build-only check (no release is published).
     branches: ["release-check"]
   workflow_dispatch:
@@ -10,8 +13,24 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  # Rolling release: remove the previous "latest" release and tag so the new one points at this commit.
+  prepare:
+    name: Reset rolling release
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release delete latest --cleanup-tag --yes --repo "$GITHUB_REPOSITORY" || true
+
   build:
+    needs: [prepare]
+    if: ${{ !cancelled() && (needs.prepare.result == 'success' || needs.prepare.result == 'skipped') }}
     name: Build (${{ matrix.label }})
     strategy:
       fail-fast: false
@@ -56,7 +75,21 @@ jobs:
 
       - run: npm ci
 
-      # Tagged push: build and attach installers to a GitHub Release.
+      # Push to main: publish installers to the rolling "latest" pre-release.
+      - name: Build and publish latest
+        if: github.ref == 'refs/heads/main'
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: latest
+          releaseName: "Overhead (latest build)"
+          releaseBody: "Automatic build of the newest commit on main. Unsigned. Download the installer for your system below."
+          releaseDraft: false
+          prerelease: true
+          args: ${{ matrix.args }}
+
+      # Tagged push: build and attach installers to a versioned GitHub Release.
       - name: Build and publish release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: tauri-apps/tauri-action@v0
@@ -72,7 +105,7 @@ jobs:
 
       # Manual run: build only, keep the installers as workflow artifacts.
       - name: Build (manual run)
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') && github.ref != 'refs/heads/main' }}
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +113,7 @@ jobs:
           args: ${{ matrix.args }}
 
       - name: Upload installers (manual run)
-        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') && github.ref != 'refs/heads/main' }}
         uses: actions/upload-artifact@v4
         with:
           name: overhead-${{ matrix.label }}

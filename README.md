@@ -12,7 +12,7 @@ Three themes ship: **Phosphor** (default), **Amber** and **Daylight**. See `docs
 
 ## Download
 
-Installers for Windows (`.exe`, `.msi`), macOS (`.dmg`, Apple Silicon and Intel) and Linux (`.AppImage`, `.deb`, `.rpm`) are attached to each [GitHub Release](../../releases). The builds are not code-signed, so Windows SmartScreen and macOS Gatekeeper will warn on first launch.
+Installers for Windows (`.exe`, `.msi`), macOS (`.dmg`, Apple Silicon and Intel) and Linux (`.AppImage`, `.deb`, `.rpm`) are on the [Releases page](../../releases): the **latest** pre-release is rebuilt automatically from every push to `main`, and tagged `v*` releases are kept as versions. The builds are not code-signed, so Windows SmartScreen and macOS Gatekeeper will warn on first launch.
 
 ## Using it
 
@@ -72,7 +72,7 @@ A replay file is either `{"frames":[{"t":0,"body":{...}}],"home":{"lat":..,"lon"
 
 ## Releasing
 
-Push a tag such as `v0.1.0`. The **Release** workflow builds installers on Windows, Linux and macOS and attaches them to a GitHub Release. Running it manually from the Actions tab builds the same installers and keeps them as workflow artifacts. See [DECISIONS.md](DECISIONS.md) for design notes.
+Every push to `main` rebuilds the rolling **latest** release automatically. For a versioned release, push a tag such as `v0.1.0`. The **Release** workflow builds installers on Windows, Linux and macOS and attaches them to a GitHub Release. Running it manually from the Actions tab builds the same installers and keeps them as workflow artifacts. See [DECISIONS.md](DECISIONS.md) for design notes.
 
 ## License
 
