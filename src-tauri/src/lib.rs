@@ -90,7 +90,21 @@ fn replay_arg() -> Option<PathBuf> {
     None
 }
 
+/// Release builds have no console on Windows, so write panics to a file the user can find.
+fn install_crash_log() {
+    std::panic::set_hook(Box::new(|info| {
+        let dir = std::env::var_os("LOCALAPPDATA")
+            .or_else(|| std::env::var_os("HOME"))
+            .map(PathBuf::from)
+            .unwrap_or_else(std::env::temp_dir)
+            .join("Overhead");
+        let _ = std::fs::create_dir_all(&dir);
+        let _ = std::fs::write(dir.join("crash.log"), format!("{info}\n"));
+    }));
+}
+
 pub fn run() {
+    install_crash_log();
     tracing_subscriber::fmt()
         .with_env_filter(tracing_subscriber::EnvFilter::try_from_default_env().unwrap_or_else(|_| "info".into()))
         .init();
@@ -105,7 +119,9 @@ pub fn run() {
             std::fs::create_dir_all(&data_dir)?;
             let mut cfg = EngineConfig::new(data_dir);
             cfg.replay_file = replay_arg();
-            let engine = Engine::spawn(cfg, Arc::new(TauriEmitter(app.handle().clone())));
+            let emitter = Arc::new(TauriEmitter(app.handle().clone()));
+            // Engine::spawn uses tokio::spawn, which needs a runtime context; setup runs outside one.
+            let engine = tauri::async_runtime::block_on(async move { Engine::spawn(cfg, emitter) });
             if let Some(win) = app.get_webview_window("main") {
                 apply_window_prefs(&win, &engine.settings());
             }
@@ -129,7 +145,9 @@ pub fn run() {
             if let Some(icon) = app.default_window_icon() {
                 tray = tray.icon(icon.clone());
             }
-            tray.build(app)?;
+            if let Err(e) = tray.build(app) {
+                tracing::warn!(error = %e, "tray icon unavailable");
+            }
 
             app.manage(AppState { engine });
             Ok(())
