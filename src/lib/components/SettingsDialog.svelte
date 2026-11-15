@@ -7,9 +7,21 @@
   import Range from './Range.svelte';
   import HomePicker from './HomePicker.svelte';
   import { parseCoords } from '../coords';
+  import { altFromFt, CEILING_RANGES, DIST_RANGES, distFromKm, fmtDist, ftFromAlt, kmFromDist, snapTo } from '../units';
+  import { NM_M } from '../geo';
   import type { ProviderId, ThemeName } from '../types';
 
   const s = $derived(app.settings);
+  const nmFromKm = (km: number) => (km * 1000) / NM_M;
+  const kmFromNm = (nm: number) => (nm * NM_M) / 1000;
+  const clean = (v: number) => String(+v.toFixed(2));
+  const dist = $derived(app.settings.units.dist);
+  const uAll = $derived(app.settings.units);
+  const rad = $derived(DIST_RANGES.radius[dist]);
+  const off = $derived(DIST_RANGES.offset[dist]);
+  const fly = $derived(DIST_RANGES.flyover[dist]);
+  const ceil = $derived(CEILING_RANGES[uAll.alt]);
+
   let lat = $state<number | null>(null);
   let lon = $state<number | null>(null);
   let seeded = false;
@@ -79,15 +91,15 @@
               <button class="btn btn-primary" disabled={!validHome} onclick={() => app.setHome(lat!, lon!)}>Apply</button>
             </div>
             <div class="mt-4">
-              <Row label="View radius" hint={`${s.view_radius_nm} nm. Providers are queried 10 nm further out.`}>
-                <Range label="View radius" min={10} max={150} step={5} value={s.view_radius_nm} onchange={(v) => app.update((x) => (x.view_radius_nm = v))} />
+              <Row label="View radius" hint={`Providers are queried ${fmtDist(kmFromNm(10), uAll, 0)} further out.`}>
+                <Range label="View radius" unit={dist} fmt={clean} min={rad[0]} max={rad[1]} step={rad[2]} value={snapTo(distFromKm(kmFromNm(s.view_radius_nm), uAll), rad[2])} onchange={(v) => app.update((x) => (x.view_radius_nm = nmFromKm(kmFromDist(v, uAll))))} />
               </Row>
               <Row label="Privacy offset" hint="Query around a fixed displaced point; everything is still computed from your real home locally.">
                 <Toggle label="Privacy offset" checked={s.privacy.enabled} onchange={(v) => app.update((x) => (x.privacy.enabled = v))} />
               </Row>
               {#if s.privacy.enabled}
-                <Row label="Offset distance" hint={`${s.privacy.offset_km} km`}>
-                  <Range label="Offset distance" min={1} max={25} step={1} value={s.privacy.offset_km} onchange={(v) => app.update((x) => (x.privacy.offset_km = v))} />
+                <Row label="Offset distance">
+                  <Range label="Offset distance" unit={dist} fmt={clean} min={off[0]} max={off[1]} step={off[2]} value={snapTo(distFromKm(s.privacy.offset_km, uAll), off[2])} onchange={(v) => app.update((x) => (x.privacy.offset_km = kmFromDist(v, uAll)))} />
                 </Row>
               {/if}
             </div>
@@ -121,21 +133,21 @@
                 {#each ['ft', 'm'] as v (v)}<ToggleGroup.Item value={v}>{v}</ToggleGroup.Item>{/each}
               </ToggleGroup.Root>
             </Row>
-            <Row label="Trail length" hint={`${s.trail_min} min`}>
-              <Range label="Trail length" min={1} max={15} step={1} value={s.trail_min} onchange={(v) => app.update((x) => (x.trail_min = v))} />
+            <Row label="Trail length" hint="How long each aircraft's trail is drawn.">
+              <Range label="Trail length" unit="min" min={1} max={15} step={1} value={s.trail_min} onchange={(v) => app.update((x) => (x.trail_min = v))} />
             </Row>
           </Tabs.Content>
 
           <Tabs.Content value="alerts" class="pt-1">
-            <Row label="Flyover" hint={`Within ${s.alerts.flyover_km} km and below ${s.alerts.flyover_max_alt_ft.toLocaleString()} ft`}>
+            <Row label="Flyover" hint="Alert when an aircraft passes both this close and this low.">
               <Toggle label="Flyover alerts" checked={s.alerts.flyover} onchange={(v) => app.update((x) => (x.alerts.flyover = v))} />
             </Row>
             {#if s.alerts.flyover}
-              <Row label="Flyover distance" hint={`${s.alerts.flyover_km} km`}>
-                <Range label="Flyover distance" min={0.5} max={15} step={0.5} value={s.alerts.flyover_km} onchange={(v) => app.update((x) => (x.alerts.flyover_km = v))} />
+              <Row label="Flyover distance">
+                <Range label="Flyover distance" unit={dist} fmt={clean} min={fly[0]} max={fly[1]} step={fly[2]} value={snapTo(distFromKm(s.alerts.flyover_km, uAll), fly[2])} onchange={(v) => app.update((x) => (x.alerts.flyover_km = kmFromDist(v, uAll)))} />
               </Row>
-              <Row label="Flyover ceiling" hint={`${s.alerts.flyover_max_alt_ft.toLocaleString()} ft`}>
-                <Range label="Flyover ceiling" min={1000} max={40000} step={500} value={s.alerts.flyover_max_alt_ft} onchange={(v) => app.update((x) => (x.alerts.flyover_max_alt_ft = v))} />
+              <Row label="Flyover ceiling">
+                <Range label="Flyover ceiling" unit={uAll.alt} fmt={(v) => Math.round(v).toLocaleString('en-US')} min={ceil[0]} max={ceil[1]} step={ceil[2]} value={snapTo(altFromFt(s.alerts.flyover_max_alt_ft, uAll), ceil[2])} onchange={(v) => app.update((x) => (x.alerts.flyover_max_alt_ft = Math.round(ftFromAlt(v, uAll))))} />
               </Row>
             {/if}
             <Row label="Military"><Toggle label="Military alerts" checked={s.alerts.military} onchange={(v) => app.update((x) => (x.alerts.military = v))} /></Row>
@@ -149,8 +161,8 @@
               </div>
             {/if}
             <Row label="Desktop notifications"><Toggle label="Desktop notifications" checked={s.alerts.desktop_notifications} onchange={(v) => app.update((x) => (x.alerts.desktop_notifications = v))} /></Row>
-            <Row label="Cooldown" hint={`${s.alerts.cooldown_min} min per rule and plane`}>
-              <Range label="Cooldown" min={0} max={120} step={5} value={s.alerts.cooldown_min} onchange={(v) => app.update((x) => (x.alerts.cooldown_min = v))} />
+            <Row label="Cooldown" hint="Minimum gap between repeat alerts for the same rule and aircraft.">
+              <Range label="Cooldown" unit="min" min={0} max={120} step={5} value={s.alerts.cooldown_min} onchange={(v) => app.update((x) => (x.alerts.cooldown_min = v))} />
             </Row>
             <Row label="Quiet hours" hint="No toasts or notifications. Emergencies still alert.">
               <Toggle label="Quiet hours" checked={s.alerts.quiet.enabled} onchange={(v) => app.update((x) => (x.alerts.quiet.enabled = v))} />
@@ -165,8 +177,8 @@
           </Tabs.Content>
 
           <Tabs.Content value="data" class="pt-1">
-            <Row label="Poll interval" hint={`${s.poll_interval_s} s (never under 2 s)`}>
-              <Range label="Poll interval" min={2} max={30} step={1} value={s.poll_interval_s} onchange={(v) => app.update((x) => (x.poll_interval_s = v))} />
+            <Row label="Poll interval" hint="Time between requests. Never under 2 s, to respect provider limits.">
+              <Range label="Poll interval" unit="s" min={2} max={30} step={1} value={s.poll_interval_s} onchange={(v) => app.update((x) => (x.poll_interval_s = v))} />
             </Row>
             <div class="border-b border-line py-2.5">
               <div class="font-display text-sm font-semibold uppercase tracking-[0.08em]">Provider order</div>

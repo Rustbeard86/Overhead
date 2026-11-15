@@ -32,6 +32,13 @@ jobs.push({ name: 'onboarding', q: 'view=radar&theme=phosphor&fresh=1', wh: size
 jobs.push({ name: 'design-phosphor', q: 'theme=phosphor', hash: '#/design', wh: [1280, 2000], wait: 2500 });
 jobs.push({ name: 'design-amber', q: 'theme=amber', hash: '#/design', wh: [1280, 2000], wait: 2500 });
 jobs.push({ name: 'design-daylight', q: 'theme=daylight', hash: '#/design', wh: [1280, 2000], wait: 2500 });
+const tab = (label) => async (p) => {
+  await p.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.getAttribute('aria-label') === 'Settings')?.click());
+  await new Promise((r) => setTimeout(r, 400));
+  await p.evaluate((l) => [...document.querySelectorAll('[role=tab]')].find((b) => b.textContent.trim().toLowerCase() === l)?.click(), label);
+};
+jobs.push({ name: 'settings-display', q: 'view=radar&theme=amber&home=1&t=96', wh: [900, 760], wait: 3000, act: tab('display') });
+jobs.push({ name: 'settings-alerts', q: 'view=radar&theme=amber&home=1&t=96', wh: [900, 760], wait: 3000, act: tab('alerts') });
 jobs.push({ name: 'settings', q: 'view=radar&theme=phosphor&home=1&t=96', wh: sizes.desktop, wait: 3000, act: async (p) => { await p.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.getAttribute('aria-label') === 'Settings')?.click()); } });
 jobs.push({ name: 'today', q: 'view=radar&theme=phosphor&home=1&t=96', wh: sizes.desktop, wait: 3000, act: async (p) => { await p.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.getAttribute('aria-label') === 'Today')?.click()); } });
 

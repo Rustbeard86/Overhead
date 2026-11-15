@@ -63,3 +63,29 @@ export function fmtDur(s: number): string {
   if (s < 90) return `${Math.round(s)} s`;
   return `${Math.round(s / 60)} min`;
 }
+
+/** Inverse of distFromKm. */
+export function kmFromDist(v: number, u: Units): number {
+  switch (u.dist) {
+    case 'nm': return (v * NM_M) / 1000;
+    case 'mi': return v * 1.609344;
+    default: return v;
+  }
+}
+export function altFromFt(ft: number, u: Units): number {
+  return u.alt === 'm' ? ft * FT_M : ft;
+}
+export function ftFromAlt(v: number, u: Units): number {
+  return u.alt === 'm' ? v / FT_M : v;
+}
+/** Round to the slider's step so converted values show as clean numbers. */
+export function snapTo(v: number, step: number): number {
+  return Math.round(v / step) * step;
+}
+/** Slider bounds as [min, max, step] in the unit the person picked. */
+export const DIST_RANGES = {
+  radius: { nm: [10, 150, 5], km: [20, 280, 10], mi: [10, 170, 5] },
+  offset: { nm: [1, 13, 1], km: [1, 25, 1], mi: [1, 15, 1] },
+  flyover: { nm: [0.25, 8, 0.25], km: [0.5, 15, 0.5], mi: [0.25, 10, 0.25] },
+} as const;
+export const CEILING_RANGES = { ft: [1000, 40000, 500], m: [300, 12000, 100] } as const;
