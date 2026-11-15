@@ -3,11 +3,8 @@ name: Release
 on:
   push:
     tags: ["v*"]
-    # Every push to main refreshes the rolling "latest" release.
-    branches: ["main"]
-    paths-ignore: ["**/*.md", "docs/**"]
-    # Pushing to this branch runs a build-only check (no release is published).
-    branches: ["release-check"]
+    # main refreshes the rolling "latest" release; release-check is a build-only run.
+    branches: ["main", "release-check"]
   workflow_dispatch:
 
 permissions:
