@@ -1,0 +1,14 @@
+{"now": 1794710522.001
+,"aircraft":[
+{"hex":"42592e","type":"adsb_icao_nt","flight":"SQB09   ","r":"GND","t":"GND","alt_baro":"ground","gs":0.0,"category":"C2","lat":51.281131,"lon":-0.773697,"nic":10,"rc":25,"seen_pos":4.533,"nac_p":10,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":17708,"seen":4.3,"rssi":-22.5,"dst":27.753,"dir":242.0},
+{"hex":"400d5a","type":"adsb_icao","flight":"GDBCG   ","r":"G-DBCG","t":"A319","desc":"AIRBUS A-319","alt_baro":"ground","gs":0.0,"squawk":"2000","emergency":"none","category":"A3","lat":51.473923,"lon":-0.488947,"nic":8,"rc":186,"seen_pos":7.551,"version":2,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":5068,"seen":6.5,"rssi":-25.3,"dst":13.852,"dir":263.7},
+{"hex":"4081bf","type":"adsb_icao","r":"G-TTSF","t":"A20N","desc":"AIRBUS A-320neo","alt_baro":"ground","gs":0.0,"squawk":"2000","emergency":"none","lat":51.472858,"lon":-0.461463,"nic":8,"rc":186,"seen_pos":2.570,"version":2,"nac_p":9,"nac_v":2,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":11181,"seen":1.1,"rssi":-23.5,"dst":12.842,"dir":262.9},
+{"hex":"42584c","type":"adsb_icao_nt","r":"TWR","t":"TWR","alt_baro":"ground","gs":0.0,"lat":51.458473,"lon":-0.448231,"nic":11,"rc":8,"seen_pos":0.698,"nac_p":11,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":63169,"seen":0.7,"rssi":-5.3,"dst":12.498,"dir":258.6},
+{"hex":"42584b","type":"adsb_icao_nt","r":"TWR","t":"TWR","alt_baro":"ground","gs":0.0,"lat":51.470570,"lon":-0.447043,"nic":11,"rc":8,"seen_pos":0.476,"nac_p":11,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":59714,"seen":0.5,"rssi":-21.3,"dst":12.328,"dir":261.9},
+{"hex":"42594a","type":"adsb_icao_nt","flight":"SQUID19 ","r":"GND","t":"GND","alt_baro":"ground","gs":4.2,"track":84.38,"category":"C2","lat":51.476406,"lon":-0.446858,"nic":10,"rc":25,"seen_pos":1.544,"nac_p":10,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":48,"seen":1.5,"rssi":-23.6,"dst":12.275,"dir":263.5},
+{"hex":"406540","type":"adsb_icao","flight":"@@@@@@@@","r":"G-EZGR","t":"A319","desc":"AIRBUS A-319","alt_baro":"ground","gs":0.0,"squawk":"2000","emergency":"none","lat":51.154113,"lon":-0.195122,"nic":8,"rc":186,"seen_pos":3.883,"version":2,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":18974,"seen":2.3,"rssi":-4.8,"dst":20.980,"dir":187.8},
+{"hex":"400f2a","type":"mlat","flight":"GMPSC   ","r":"G-MPSC","t":"EC45","desc":"AIRBUS HELICOPTERS EC-145","alt_baro":1250,"gs":31.0,"oat":48,"track":186.00,"baro_rate":927,"squawk":"0043","lat":51.647213,"lon":0.014749,"nic":0,"rc":0,"seen_pos":2.322,"alert":0,"spi":0,"mlat":["gs","track","baro_rate","lat","lon","nic","rc"],"tisb":[],"messages":555,"seen":0.1,"rssi":-16.7,"dst":10.172,"dir":29.6}
+]
+,"resultCount": 8
+,"ptime": 0.011
+}

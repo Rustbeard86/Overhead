@@ -1,0 +1,14 @@
+{"ac":[
+{"hex":"42592e","type":"adsb_icao_nt","flight":"SQB09   ","alt_baro":"ground","gs":0.0,"category":"C2","lat":51.281124,"lon":-0.773701,"nic":10,"rc":25,"seen_pos":1.423,"nac_p":10,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":111697,"seen":1.4,"rssi":-22.5,"dst":27.753,"dir":242.0},
+{"hex":"400d5a","type":"adsb_icao","flight":"GDBCG   ","r":"G-DBCG","t":"A319","alt_baro":"ground","gs":0.0,"squawk":"2000","emergency":"none","category":"A3","lat":51.473923,"lon":-0.488947,"nic":8,"rc":186,"seen_pos":9.578,"version":2,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":8528,"seen":8.5,"rssi":-25.4,"dst":13.852,"dir":263.7},
+{"hex":"42584c","type":"adsb_icao_nt","r":"TWR","t":"TWR","alt_baro":"ground","gs":0.0,"lat":51.458473,"lon":-0.448231,"nic":11,"rc":8,"seen_pos":1.713,"nac_p":11,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":702152,"seen":1.7,"rssi":-17.7,"dst":12.498,"dir":258.6},
+{"hex":"42584b","type":"adsb_icao_nt","r":"TWR","t":"TWR","alt_baro":"ground","gs":0.0,"lat":51.470575,"lon":-0.447044,"nic":11,"rc":8,"seen_pos":1.843,"nac_p":11,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":739467,"seen":1.8,"rssi":-17.3,"dst":12.328,"dir":261.9},
+{"hex":"42594a","type":"adsb_icao_nt","flight":"SQUID19 ","alt_baro":"ground","gs":4.2,"track":84.38,"category":"C2","lat":51.476406,"lon":-0.446858,"nic":10,"rc":25,"seen_pos":3.571,"nac_p":10,"sil":2,"sil_type":"unknown","mlat":[],"tisb":[],"messages":48,"seen":3.6,"rssi":-23.3,"dst":12.275,"dir":263.5},
+{"hex":"406540","type":"adsb_icao","flight":"@@@@@@@@","r":"G-EZGR","t":"A319","alt_baro":"ground","gs":0.0,"squawk":"2000","emergency":"none","lat":51.154118,"lon":-0.195119,"nic":8,"rc":186,"seen_pos":0.828,"version":2,"nac_p":9,"nac_v":1,"sil":3,"sil_type":"perhour","sda":2,"alert":0,"spi":0,"mlat":[],"tisb":[],"messages":32209,"seen":0.8,"rssi":-4.8,"dst":20.979,"dir":187.8}
+]
+,"msg": "No error"
+,"now": 1794710524001
+,"total": 6
+,"ctime": 1794710524001
+,"ptime": 0
+}

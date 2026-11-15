@@ -1,0 +1,1 @@
+{"aircraft":[{"alt_baro":10100.0,"alt_geom":10225.0,"baro_rate":-1800.0,"category":"A3","desc":"BOEING 737-800","flight":"RYR42XE ","gs":387.3,"hex":"4ca003","lat":51.815774,"lon":-0.276185,"r":"EI-DWB","seen_pos":0.0,"squawk":"7700","synthetic":true,"t":"B738","track":162.47,"type":"adsb_icao"}],"now":1800000030.0,"ptime":0,"resultCount":1,"synthetic":true}
