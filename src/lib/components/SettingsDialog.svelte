@@ -6,6 +6,7 @@
   import Toggle from './Toggle.svelte';
   import Range from './Range.svelte';
   import HomePicker from './HomePicker.svelte';
+  import { parseCoords } from '../coords';
   import type { ProviderId, ThemeName } from '../types';
 
   const s = $derived(app.settings);
@@ -21,6 +22,15 @@
     if (!app.settingsOpen) seeded = false;
   });
   const num = (v: string) => (v.trim() === '' ? null : Number(v));
+  // Pasting \"lat, lon\" (or a Google Maps URL) into either box fills both.
+  function setField(which: 'lat' | 'lon', v: string) {
+    const pair = parseCoords(v);
+    if (pair) {
+      lat = pair.lat;
+      lon = pair.lon;
+    } else if (which === 'lat') lat = num(v);
+    else lon = num(v);
+  }
   const validHome = $derived(lat != null && lon != null && Math.abs(lat) <= 90 && Math.abs(lon) <= 180);
   const hm = (m: number) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
   const toMin = (v: string) => {
@@ -63,9 +73,9 @@
             <HomePicker bind:lat bind:lon />
             <div class="mt-3 grid grid-cols-[1fr_1fr_auto] items-end gap-3">
               <label class="flex flex-col gap-1"><span class="label">Latitude</span>
-                <input class="field" inputmode="decimal" value={lat ?? ''} oninput={(e) => (lat = num(e.currentTarget.value))} /></label>
+                <input class="field" inputmode="decimal" value={lat ?? ''} oninput={(e) => setField('lat', e.currentTarget.value)} /></label>
               <label class="flex flex-col gap-1"><span class="label">Longitude</span>
-                <input class="field" inputmode="decimal" value={lon ?? ''} oninput={(e) => (lon = num(e.currentTarget.value))} /></label>
+                <input class="field" inputmode="decimal" value={lon ?? ''} oninput={(e) => setField('lon', e.currentTarget.value)} /></label>
               <button class="btn btn-primary" disabled={!validHome} onclick={() => app.setHome(lat!, lon!)}>Apply</button>
             </div>
             <div class="mt-4">
