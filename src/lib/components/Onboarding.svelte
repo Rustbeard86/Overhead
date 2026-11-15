@@ -36,7 +36,10 @@
       </div>
       <div class="flex items-center justify-between gap-3 border-t border-line px-5 py-3">
         <button class="btn btn-ghost" onclick={() => app.finishOnboarding()}>Use demo for now</button>
-        <button class="btn btn-primary" disabled={!valid} onclick={save}>Set home</button>
+        <div class="flex items-center gap-3">
+          {#if !valid}<span class="text-xs text-ink2">Click the map or enter coordinates</span>{/if}
+          <button class="btn btn-primary" disabled={!valid} onclick={save}>Set home</button>
+        </div>
       </div>
     </Dialog.Content>
   </Dialog.Portal>

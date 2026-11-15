@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import * as maplibregl from 'maplibre-gl';
   import 'maplibre-gl/dist/maplibre-gl.css';
-  import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
   import { LocateFixed } from '@lucide/svelte';
   import { app, scene } from '../store.svelte';
   import { readPalette, type Palette } from '../theme';
@@ -12,8 +11,6 @@
   import { enuToLatLon, NM_M } from '../geo';
   import { distFromKm } from '../units';
   import IconButton from './IconButton.svelte';
-
-  maplibregl.setWorkerUrl(workerUrl);
 
   let host: HTMLDivElement;
   let overlay: HTMLCanvasElement;

@@ -5,6 +5,11 @@
 
 import type { StyleSpecification, LayerSpecification } from 'maplibre-gl';
 import { mapColors } from './theme';
+import { setWorkerUrl } from 'maplibre-gl';
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
+
+// Must run before any Map is created (first-run dialog included).
+setWorkerUrl(workerUrl);
 
 export function buildStyle(): StyleSpecification {
   const c = mapColors();
